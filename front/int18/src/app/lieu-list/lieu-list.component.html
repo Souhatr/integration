@@ -39,8 +39,8 @@
             <label for="adresse" class="form-label">Adresse</label>
             <input type="text" id="adresse" [(ngModel)]="newLieu.adresse" name="adresse" required class="form-control">
           </div>
-          <div class="col-md-4">
-            <label for="tarif" class="form-label">Tarif (€)</label>
+          <div class="col-md-4" *ngIf="newLieu.categorie !== 'restaurant'">
+            <label for="tarif" class="form-label">Tarif (DT)</label>
             <input type="number" id="tarif" [(ngModel)]="newLieu.tarif" name="tarif" required class="form-control" step="0.01">
           </div>
           <div class="col-md-4">

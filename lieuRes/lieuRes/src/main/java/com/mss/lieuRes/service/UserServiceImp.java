@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.mss.lieuRes.entities.User;
 import com.mss.lieuRes.entities.Reservation;
+import com.mss.lieuRes.entities.Role;
 import com.mss.lieuRes.repo.ReservationRepository;
 import com.mss.lieuRes.repo.UserRepo;
 
@@ -33,7 +34,7 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean inscrire(User user) {
         user.setDateInscription(new Date());
-        if (user.getRole() == null) user.setRole("USER");
+        if (user.getRole() == null) user.setRole(Role.USER);
         userRepo.save(user);
         return true;
     }
@@ -88,7 +89,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User createUser(User user) {
         user.setDateInscription(new Date());
-        if (user.getRole() == null) user.setRole("USER");
+        if (user.getRole() == null) user.setRole(Role.USER);
         return userRepo.save(user);
     }
     

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.mss.lieuRes.service.UserService;
 import com.mss.lieuRes.entities.User;
 import com.mss.lieuRes.entities.Reservation;
+import com.mss.lieuRes.entities.Role;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -106,7 +108,7 @@ public class UserController {
         User req = authUtil.getRequester(request);
         if (req == null || !authUtil.isAdmin(req)) return ResponseEntity.status(403).body("Access denied");
         // only SUPER_ADMIN can create ADMIN users
-        if ("ADMIN".equalsIgnoreCase(user.getRole()) && !authUtil.isSuperAdmin(req)) {
+        if ((user.getRole() == Role.ADMIN) && !authUtil.isSuperAdmin(req)) {
             return ResponseEntity.status(403).body("Only SUPER_ADMIN can create ADMIN users");
         }
         User created = userService.createUser(user);
@@ -123,7 +125,7 @@ public class UserController {
 
         // if requester is admin, allow update but only SUPER_ADMIN can assign ADMIN role
         if (authUtil.isAdmin(req)) {
-            if ("ADMIN".equalsIgnoreCase(user.getRole()) && !authUtil.isSuperAdmin(req)) {
+        	if ((user.getRole() == Role.ADMIN) && !authUtil.isSuperAdmin(req)) {
                 return ResponseEntity.status(403).body("Only SUPER_ADMIN can assign ADMIN role");
             }
             User updated = userService.updateUser(id, user);

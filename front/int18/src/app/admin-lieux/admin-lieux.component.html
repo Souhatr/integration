@@ -14,7 +14,7 @@
       </div>
       <div class="col-md-6">
         <textarea class="form-control mb-2" [(ngModel)]="newLieu.description" placeholder="Description"></textarea>
-        <input class="form-control mb-2" type="number" [(ngModel)]="newLieu.tarif" placeholder="Tarif" />
+        <input class="form-control mb-2" *ngIf="newLieu.categorie !== 'restaurant'" type="number" [(ngModel)]="newLieu.tarif" placeholder="Tarif" />
         <button class="btn btn-success" (click)="create()">Créer</button>
       </div>
     </div>

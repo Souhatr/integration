@@ -19,7 +19,7 @@ public class Task {
     @Column(length = 2000)
     private String description;
 
-    // assigned employee user id
+   
     private Integer assignedTo;
 
     @Enumerated(EnumType.STRING)

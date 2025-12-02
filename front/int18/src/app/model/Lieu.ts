@@ -14,6 +14,7 @@ export interface Lieu {
   adresse: string;
   categorie: string;
   tarif: number;
+  //imagePath?: string; 
   idImage: number;
   disponible: boolean;
   plagesHoraires: PlageHoraire[];

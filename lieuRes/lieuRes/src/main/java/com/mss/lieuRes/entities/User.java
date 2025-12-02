@@ -33,31 +33,16 @@ public class User {
     private String prenom;
     private String email;
     private String telephone;
+    //private String role;
     
     @Temporal(TemporalType.DATE)
     private Date dateInscription;
     
     private String username;
     private String motdepasse;
-    private String role;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles = new HashSet<>();
+    @Column(length = 50)
+    private Role role;
     
-    
-    public boolean hasRole(Role role) {
-        return this.roles.contains(role);
-    }
-    
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-    
-    public void removeRole(Role role) {
-        this.roles.remove(role);
-    }
-  
 }
 

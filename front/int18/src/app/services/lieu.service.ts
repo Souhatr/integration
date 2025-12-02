@@ -15,6 +15,10 @@ private apiUrl = 'http://localhost:8081/api/lieux';
 
   constructor(private http: HttpClient) { }
 
+   /*createLieuWithImage(formData: FormData): Observable<Lieu> {
+    return this.http.post<Lieu>(this.apiUrl, formData);
+  }*/
+
   // GET tous les lieux avec pagination
   getAllLieux(page: number = 0, size: number = 10): Observable<PageResponse> {
     let params = new HttpParams()

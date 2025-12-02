@@ -1,5 +1,6 @@
 package com.mss.lieuRes.config;
 
+import com.mss.lieuRes.entities.Role;
 import com.mss.lieuRes.entities.User;
 import com.mss.lieuRes.repo.UserRepo;
 import org.springframework.boot.CommandLineRunner;
@@ -23,7 +24,7 @@ public class DataInitializer implements CommandLineRunner {
                 u.setEmail("superadmin@example.com");
                 u.setUsername("superadmin");
                 u.setMotdepasse("admin");
-                u.setRole("SUPER_ADMIN");
+                u.setRole(Role.SUPER_ADMIN);
                 userRepo.save(u);
                 System.out.println("Created default superadmin (username: superadmin, password: admin)");
             }

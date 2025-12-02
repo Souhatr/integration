@@ -97,7 +97,12 @@ export class LieuDetailComponent implements OnInit {
     if (value.length >= 5) return value.substring(0,5);
     return value;
   }
-
+  canReserve(): boolean {
+  const user = this.auth.getCurrentUser();
+  if (!user) return false; // pas connecté → ne peut pas réserver
+  // Seuls les utilisateurs 'user' peuvent réserver
+  return user.role === 'user';
+}
   back() {
     this.router.navigate(['/lieuxA']);
   }

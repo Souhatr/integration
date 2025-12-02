@@ -22,7 +22,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verifEmail/:email', component: VerifEmailComponent },
-  { path: 'lieuxA', component: LieuListComponent },
+  { path: 'lieuxA', component: LieuListComponent , canActivate: [authGuard] },
   { path: 'lieux/:id', loadComponent: () => import('./lieu-detail/lieu-detail.component').then(m => m.LieuDetailComponent) },
   { path: 'admin/lieux', component: AdminLieuxComponent, data: { admin: true }, canActivate: [authGuard] },
   { path: 'admin/reservations', component: AdminReservationsComponent, data: { admin: true }, canActivate: [authGuard] },
@@ -34,6 +34,6 @@ export const routes: Routes = [
   { path: 'admin/tasks', component: AdminTasksComponent, data: { admin: true }, canActivate: [authGuard] },
   { path: 'users/:id', component: ProfileComponent },
   { path: 'access-denied', component: AccessDeniedComponent },
-  { path: 'mes-reservations', component: MyReservationsComponent },
+  { path: 'mes-reservations', component: MyReservationsComponent , canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];
