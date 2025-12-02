@@ -1,0 +1,17 @@
+<div class="container">
+  <h3>Signaler un problème</h3>
+  <div>
+    <label>Categorie</label>
+    <select [(ngModel)]="signal.category" class="form-select">
+      <option [ngValue]="null">-- Choisir --</option>
+      <option *ngFor="let c of categories" [ngValue]="c">{{c.name}}</option>
+    </select>
+  </div>
+  <div>
+    <label>Description</label>
+    <textarea [(ngModel)]="signal.description"></textarea>
+  </div>
+  <div>
+    <button (click)="submit()">Envoyer</button>
+  </div>
+</div>

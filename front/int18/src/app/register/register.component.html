@@ -1,0 +1,80 @@
+<form [formGroup]="myForm">
+  <div *ngIf="err" class="alert alert-danger">
+    <strong>{{ err }}</strong>
+  </div>
+
+  <div class="form-group">
+    <label>Nom :</label>
+    <input type="text" class="form-control" formControlName="nom" [(ngModel)]="user.nom">
+    <span *ngIf="myForm.controls['nom'].hasError('required') && myForm.controls['nom'].touched" class="text-danger">
+      Le nom est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Prénom :</label>
+    <input type="text" class="form-control" formControlName="prenom" [(ngModel)]="user.prenom">
+    <span *ngIf="myForm.controls['prenom'].hasError('required') && myForm.controls['prenom'].touched" class="text-danger">
+      Le prénom est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Email :</label>
+    <input type="text" class="form-control" formControlName="email" [(ngModel)]="user.email">
+    <span *ngIf="myForm.controls['email'].hasError('required') && myForm.controls['email'].touched" class="text-danger">
+      L'email est obligatoire
+    </span>
+    <span *ngIf="myForm.controls['email'].hasError('email') && myForm.controls['email'].touched" class="text-danger">
+      L'email n'est pas valide
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Téléphone :</label>
+    <input type="text" class="form-control" formControlName="telephone" [(ngModel)]="user.telephone">
+    <span *ngIf="myForm.controls['telephone'].hasError('required') && myForm.controls['telephone'].touched" class="text-danger">
+      Le téléphone est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Nom d'utilisateur :</label>
+    <input type="text" class="form-control" formControlName="username" [(ngModel)]="user.username">
+    <span *ngIf="myForm.controls['username'].hasError('required') && myForm.controls['username'].touched" class="text-danger">
+      Le nom d'utilisateur est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Mot de passe :</label>
+    <input type="password" class="form-control" formControlName="motdepasse" [(ngModel)]="user.motdepasse">
+    <span *ngIf="myForm.controls['motdepasse'].hasError('required') && myForm.controls['motdepasse'].touched" class="text-danger">
+      Le mot de passe est obligatoire
+    </span>
+    <span *ngIf="myForm.controls['motdepasse'].hasError('minlength') && myForm.controls['motdepasse'].touched" class="text-danger">
+      Le mot de passe doit contenir au moins 6 caractères
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Confirmer le mot de passe :</label>
+    <input type="password" class="form-control" formControlName="confirmPassword" [(ngModel)]="confirmmotdepasse">
+    <span *ngIf="myForm.controls['confirmPassword'].hasError('required') && myForm.controls['confirmPassword'].touched" class="text-danger">
+      La confirmation du mot de passe est obligatoire
+    </span>
+    <span *ngIf="myForm.get('confirmPassword')?.touched && myForm.get('confirmPassword')?.value != myForm.get('motdepasse')?.value" class="text-danger">
+      Le mot de passe confirmé ne correspond pas au mot de passe tapé
+    </span>
+  </div>
+
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <button type="button" [disabled]="myForm.invalid" class="btn btn-success" (click)="onRegister()">S'inscrire</button>
+
+  <p>Vous avez un compte? <a routerLink="/login">Se connecter</a></p>
+</form>

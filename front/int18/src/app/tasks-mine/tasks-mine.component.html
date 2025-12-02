@@ -1,0 +1,11 @@
+<div class="container">
+  <h3>Mes tâches</h3>
+  <div class="mb-2"><input class="form-control" placeholder="Filtrer tâches" [(ngModel)]="filter" (ngModelChange)="buildDisplay()" /></div>
+  <ul>
+    <li *ngFor="let t of displayed">
+      <b>{{t.title}}</b> - {{t.description}} - <i>{{t.status}}</i>
+      <button class="btn btn-sm btn-primary ms-2" (click)="updateStatus(t,'IN_PROGRESS')">En cours</button>
+      <button class="btn btn-sm btn-success ms-1" (click)="updateStatus(t,'DONE')">Terminé</button>
+    </li>
+  </ul>
+</div>

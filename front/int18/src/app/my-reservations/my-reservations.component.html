@@ -1,0 +1,30 @@
+<div class="container mt-3">
+  <h3>Mes réservations</h3>
+  <div class="mb-2">
+    <input class="form-control" placeholder="Filtrer par lieu ou id" [(ngModel)]="filter" (ngModelChange)="buildDisplay()" />
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Lieu</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of displayed">
+        <td>{{ r.idR }}</td>
+        <td>
+          <a *ngIf="r.lieu" [routerLink]="['/lieux', r.lieu.idL]">{{ r.lieu.nom }}</a>
+          <small *ngIf="!r.lieu">(lieu {{ r.idL }})</small>
+        </td>
+        <td>{{ r.dateReservation }}</td>
+        <td>
+          <a [routerLink]="['/users', currentUserId]">Mon profil</a>
+          <button class="btn btn-sm btn-danger ms-2" (click)="delete(r.idR)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

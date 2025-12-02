@@ -1,0 +1,53 @@
+<div class="container mt-3">
+  <h3>Administration des lieux</h3>
+
+  <div class="card mb-3 p-3">
+    <h5>Créer un lieu</h5>
+    <div class="mb-2">
+      <input class="form-control" placeholder="Filtrer lieux (nom, catégorie, adresse)" [(ngModel)]="filterTerm" (ngModelChange)="applyFilter()" />
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <input class="form-control mb-2" [(ngModel)]="newLieu.nom" placeholder="Nom" />
+        <input class="form-control mb-2" [(ngModel)]="newLieu.categorie" placeholder="Catégorie" />
+        <input class="form-control mb-2" [(ngModel)]="newLieu.adresse" placeholder="Adresse" />
+      </div>
+      <div class="col-md-6">
+        <textarea class="form-control mb-2" [(ngModel)]="newLieu.description" placeholder="Description"></textarea>
+        <input class="form-control mb-2" type="number" [(ngModel)]="newLieu.tarif" placeholder="Tarif" />
+        <button class="btn btn-success" (click)="create()">Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="editing" class="card mb-3 p-3">
+    <h5>Édition</h5>
+    <input class="form-control mb-2" [(ngModel)]="editing.nom" />
+    <input class="form-control mb-2" [(ngModel)]="editing.categorie" />
+    <textarea class="form-control mb-2" [(ngModel)]="editing.description"></textarea>
+    <button class="btn btn-primary me-2" (click)="saveEdit()">Enregistrer</button>
+    <button class="btn btn-secondary" (click)="cancelEdit()">Annuler</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Catégorie</th>
+        <th>Adresse</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of lieux">
+        <td>{{ l.nom }}</td>
+        <td>{{ l.categorie }}</td>
+        <td>{{ l.adresse }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="edit(l)">Éditer</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(l.idL)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

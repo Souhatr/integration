@@ -1,0 +1,14 @@
+<div class="container">
+  <h3>Admin : Tasks</h3>
+  <div>
+    <input [(ngModel)]="task.title" placeholder="Titre" class="form-control mb-1" />
+    <input [(ngModel)]="task.assignedTo" placeholder="AssignedTo (user id)" class="form-control mb-1" />
+    <textarea [(ngModel)]="task.description" placeholder="Description" class="form-control mb-1"></textarea>
+    <button class="btn btn-primary mb-2" (click)="create()">Créer</button>
+    <div class="mb-2"><input class="form-control" placeholder="Filtrer tâches" [(ngModel)]="filter" /></div>
+  </div>
+  <hr />
+  <ul>
+    <li *ngFor="let t of filtered()" class="mb-1">{{t.id}} - <b>{{t.title}}</b> - {{t.assignedTo}} - <i>{{t.status}}</i> <button class="btn btn-sm btn-danger ms-2" (click)="del(t.id)">Suppr</button></li>
+  </ul>
+</div>

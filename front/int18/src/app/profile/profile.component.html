@@ -1,0 +1,29 @@
+<div class="container mt-3" *ngIf="user">
+  <h3>Profil utilisateur</h3>
+
+  <div *ngIf="!editing">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Nom:</strong> {{ user.nom }} {{ user.prenom }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Téléphone:</strong> {{ user.telephone }}</p>
+    <p><strong>Rôle:</strong> <span class="badge bg-secondary">{{ user.role }}</span></p>
+    <div *ngIf="canEdit">
+      <button class="btn btn-primary" (click)="editing = true">Modifier mon profil</button>
+    </div>
+  </div>
+
+  <div *ngIf="editing">
+    <h5>Modifier profil</h5>
+    <div class="row g-2">
+      <div class="col-md-4"><input class="form-control" [(ngModel)]="user.nom" placeholder="Nom" /></div>
+      <div class="col-md-4"><input class="form-control" [(ngModel)]="user.prenom" placeholder="Prénom" /></div>
+      <div class="col-md-4"><input class="form-control" [(ngModel)]="user.email" placeholder="Email" /></div>
+      <div class="col-md-4"><input class="form-control" [(ngModel)]="user.telephone" placeholder="Téléphone" /></div>
+      <div class="col-12 mt-2">
+        <button class="btn btn-success me-2" (click)="save()">Enregistrer</button>
+        <button class="btn btn-secondary" (click)="editing = false">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+</div>

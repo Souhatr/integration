@@ -1,0 +1,48 @@
+<div class="container mt-3">
+  <h3>Gestion des utilisateurs / admins</h3>
+
+  <div class="card p-3 mb-3">
+    <h5>Créer un utilisateur</h5>
+    <div class="mb-2">
+      <input class="form-control" placeholder="Filtrer utilisateurs (username, email, nom)" [(ngModel)]="filterTerm" />
+    </div>
+    <div class="row">
+      <div class="col-md-4"><input class="form-control mb-2" [(ngModel)]="newUser.nom" placeholder="Nom"></div>
+      <div class="col-md-4"><input class="form-control mb-2" [(ngModel)]="newUser.prenom" placeholder="Prénom"></div>
+      <div class="col-md-4"><input class="form-control mb-2" [(ngModel)]="newUser.email" placeholder="Email"></div>
+      <div class="col-md-4"><input class="form-control mb-2" [(ngModel)]="newUser.username" placeholder="Username"></div>
+      <div class="col-md-4"><input class="form-control mb-2" [(ngModel)]="newUser.motdepasse" placeholder="Mot de passe"></div>
+      <div class="col-md-4"><select class="form-select" [(ngModel)]="newUser.role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option><option value="SUPER_ADMIN">SUPER_ADMIN</option></select></div>
+      <div class="col-12 mt-2"><button class="btn btn-success" (click)="create()">Créer</button></div>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead><tr><th>id</th><th>username</th><th>email</th><th>role</th><th>actions</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let u of filteredUsers()">
+        <td>{{ u.idU }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="edit(u)">Éditer</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(u.idU)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="editing" class="card p-3 mt-3">
+    <h5>Édition</h5>
+    <input class="form-control mb-2" [(ngModel)]="editing.nom">
+    <input class="form-control mb-2" [(ngModel)]="editing.prenom">
+    <input class="form-control mb-2" [(ngModel)]="editing.email">
+    <input class="form-control mb-2" [(ngModel)]="editing.username">
+    <input class="form-control mb-2" [(ngModel)]="editing.motdepasse">
+    <select class="form-select mb-2" [(ngModel)]="editing.role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option><option value="SUPER_ADMIN">SUPER_ADMIN</option></select>
+    <button class="btn btn-primary me-2" (click)="save()">Enregistrer</button>
+    <button class="btn btn-secondary" (click)="editing=null">Annuler</button>
+  </div>
+
+</div>

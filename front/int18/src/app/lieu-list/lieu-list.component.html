@@ -1,0 +1,159 @@
+<div class="container mt-4">
+  
+  <!-- Barre de recherche -->
+    <div class="d-flex gap-2 mb-3 flex-wrap">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher..." class="form-control" style="width: 200px;">
+    
+    <select [(ngModel)]="selectedCategorie" class="form-select" style="width: 200px;">
+      <option value="">Toutes catégories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+    </select>
+    
+    <button (click)="onSearch()" class="btn btn-primary">Rechercher</button>
+    <button (click)="resetSearch()" class="btn btn-secondary">Reset</button>
+    <button *ngIf="auth.isAdmin()" (click)="showAddForm = !showAddForm" class="btn btn-success">+ Ajouter</button>
+  </div>
+
+  <!-- Formulaire ajout -->
+  <div *ngIf="showAddForm && auth.isAdmin()" class="card mb-3">
+    <div class="card-body">
+      <h5>Nouveau Lieu</h5>
+      <form (ngSubmit)="onSubmit()" #lieuForm="ngForm">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" id="nom" [(ngModel)]="newLieu.nom" name="nom" required class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="categorie" class="form-label">Catégorie</label>
+            <select id="categorie" [(ngModel)]="newLieu.categorie" name="categorie" required class="form-select">
+              <option value="">-- Sélectionner une catégorie --</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" [(ngModel)]="newLieu.description" name="description" required class="form-control" rows="3"></textarea>
+          </div>
+          <div class="col-12">
+            <label for="adresse" class="form-label">Adresse</label>
+            <input type="text" id="adresse" [(ngModel)]="newLieu.adresse" name="adresse" required class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="tarif" class="form-label">Tarif (€)</label>
+            <input type="number" id="tarif" [(ngModel)]="newLieu.tarif" name="tarif" required class="form-control" step="0.01">
+          </div>
+          <div class="col-md-4">
+            <label for="idImage" class="form-label">Image</label>
+            <input type="file" id="idImage" (change)="onFileSelected($event)" accept="image/*" class="form-control">
+            <small class="text-muted d-block mt-1">Formats acceptés: JPG, PNG, GIF</small>
+          </div>
+          <div class="col-md-4" *ngIf="previewUrl">
+            <label class="form-label">Aperçu</label>
+            <img [src]="previewUrl" alt="Aperçu" style="max-width: 100%; max-height: 150px; border-radius: 4px;">
+          </div>
+          <div class="col-md-4">
+            <label for="disponible" class="form-label">Disponibilité</label>
+            <div class="form-check mt-3">
+              <input type="checkbox" id="disponible" [(ngModel)]="newLieu.disponible" name="disponible" class="form-check-input">
+              <label for="disponible" class="form-check-label">Disponible</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-success me-2" [disabled]="!lieuForm.form.valid">Créer</button>
+            <button type="button" (click)="cancelAdd()" class="btn btn-secondary">Annuler</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Liste -->
+  <div class="row">
+    <div class="col-md-6 col-lg-4 mb-3" *ngFor="let lieu of lieux">
+      <div class="card">
+        <div class="card-body">
+          <ng-container *ngIf="editingId !== lieu.idL; else editForm">
+            <h5 class="card-title">{{ lieu.nom }}</h5>
+            <p class="card-text"><small class="text-muted">{{ lieu.categorie }}</small></p>
+            <p class="card-text">{{ lieu.adresse }}</p>
+            <p class="card-text"><strong>{{ lieu.tarif }} €</strong></p>
+            <p class="card-text">{{ lieu.description }}</p>
+            <span class="badge" [ngClass]="lieu.disponible ? 'bg-success' : 'bg-danger'">
+              {{ lieu.disponible ? 'Disponible' : 'Indisponible' }}
+            </span>
+          </ng-container>
+          <ng-template #editForm>
+            <div class="edit-form">
+              <div class="mb-2">
+                <label class="form-label">Nom</label>
+                <input type="text" class="form-control" [(ngModel)]="editingLieu!.nom" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Catégorie</label>
+                <input type="text" class="form-control" [(ngModel)]="editingLieu!.categorie" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Adresse</label>
+                <input type="text" class="form-control" [(ngModel)]="editingLieu!.adresse" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Tarif (€)</label>
+                <input type="number" class="form-control" [(ngModel)]="editingLieu!.tarif" step="0.01" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" [(ngModel)]="editingLieu!.description" rows="3"></textarea>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="editDisponible" [(ngModel)]="editingLieu!.disponible" />
+                <label class="form-check-label" for="editDisponible">Disponible</label>
+              </div>
+              <div class="mt-3">
+                <button class="btn btn-primary btn-sm me-1" (click)="saveEdit()">Enregistrer</button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelEdit()">Annuler</button>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="card-footer" *ngIf="editingId !== lieu.idL">
+          <button *ngIf="auth.isAdmin()" (click)="editLieu(lieu)" class="btn btn-warning btn-sm me-1">Modifier</button>
+          <button *ngIf="auth.isAdmin()" (click)="deleteLieu(lieu.idL)" class="btn btn-danger btn-sm me-1">Supprimer</button>
+          <button (click)="viewDetails(lieu)" class="btn btn-info btn-sm">Détails</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="pageResponse" class="mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div>
+        <label>Par page: </label>
+        <select [(ngModel)]="pageSize" (ngModelChange)="currentPage=0; loadLieux()" class="form-select d-inline-block ms-2" style="width:100px">
+          <option [value]="6">6</option>
+          <option [value]="12">12</option>
+          <option [value]="24">24</option>
+        </select>
+      </div>
+      <div>
+        <small>({{ pageResponse.totalElements }} lieux)</small>
+      </div>
+    </div>
+
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage===0"><a class="page-link" (click)="previousPage()">←</a></li>
+        <li class="page-item" *ngFor="let p of pages(); let i = index" [class.active]="i===currentPage"><a class="page-link" (click)="currentPage=i; loadLieux()">{{ i+1 }}</a></li>
+        <li class="page-item" [class.disabled]="currentPage>=pageResponse.totalPages-1"><a class="page-link" (click)="nextPage()">→</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Chargement -->
+  <div *ngIf="loading" class="text-center mt-3">
+    <div class="spinner-border"></div>
+    <p>Chargement...</p>
+  </div>
+
+</div>

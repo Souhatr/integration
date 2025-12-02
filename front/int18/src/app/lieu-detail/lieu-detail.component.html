@@ -1,0 +1,49 @@
+<div class="container mt-3">
+  <button class="btn btn-light mb-3" (click)="back()">← Retour</button>
+  <div *ngIf="loading" class="text-center"><div class="spinner-border"></div></div>
+  <div *ngIf="lieu">
+    <h3>{{ lieu.nom }}</h3>
+    <p><strong>Catégorie:</strong> {{ lieu.categorie }}</p>
+    <p><strong>Adresse:</strong> {{ lieu.adresse }}</p>
+    <p><strong>Tarif:</strong> {{ lieu.tarif }} €</p>
+    <p><strong>Description:</strong></p>
+    <p>{{ lieu.description }}</p>
+    <p><strong>Disponibilité:</strong> <span [ngClass]="lieu.disponible ? 'text-success' : 'text-danger'">{{ lieu.disponible ? 'Disponible' : 'Indisponible' }}</span></p>
+    <div class="mt-3">
+      <h5>Plages horaires</h5>
+      <ul *ngIf="lieu.plagesHoraires?.length; else noPlages">
+        <li *ngFor="let p of lieu.plagesHoraires">{{ p.jour }} — {{ formatTime(p.heureDebut) }} à {{ formatTime(p.heureFin) }}</li>
+      </ul>
+      <ng-template #noPlages><p>Aucune plage horaire disponible.</p></ng-template>
+    </div>
+
+    <div class="mt-3 card p-3">
+      <h5>Réserver</h5>
+      <div *ngIf="!lieu.disponible" class="alert alert-warning">
+    ⚠️ Ce lieu est actuellement indisponible pour les réservations.
+  </div>
+      <div class="mb-2">
+        <label>Date</label>
+        <input type="date" class="form-control" [(ngModel)]="selectedDate" [disabled]="!lieu.disponible" />
+        
+      </div>
+      <div class="mb-2" *ngIf="lieu.plagesHoraires?.length">
+        <label>Plage horaire (optionnel)</label>
+        <select class="form-select" [(ngModel)]="selectedPlageId" [disabled]="!lieu.disponible">
+          <option [value]="null">Aucune</option>
+          <option *ngFor="let p of lieu.plagesHoraires" [value]="p.id">{{ p.jour }} — {{ formatTime(p.heureDebut) }} à {{ formatTime(p.heureFin) }}</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="reserve()"  [disabled]="!lieu.disponible" >Réserver</button>
+    </div>
+
+    <div class="mt-3">
+      <h5>Réservations existantes</h5>
+      <ul *ngIf="reservations?.length; else noneRes">
+        <li *ngFor="let r of reservations">Réservation #{{ r.idR }} — {{ r.dateDebut }} (par user {{ r.idU }})</li>
+      </ul>
+      <ng-template #noneRes><p>Aucune réservation pour ce lieu.</p></ng-template>
+    </div>
+  </div>
+  <div *ngIf="!lieu && !loading" class="alert alert-warning">Lieu introuvable.</div>
+</div>

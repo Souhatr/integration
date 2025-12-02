@@ -1,0 +1,15 @@
+<div class="container mt-4" style="max-width: 400px">
+  <h3>Connexion</h3>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <form (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label class="form-label">Nom d'utilisateur</label>
+      <input class="form-control" [(ngModel)]="username" name="username" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Mot de passe</label>
+      <input type="password" class="form-control" [(ngModel)]="motdepasse" name="motdepasse" required />
+    </div>
+    <button class="btn btn-primary" type="submit">Se connecter</button>
+  </form>
+</div>

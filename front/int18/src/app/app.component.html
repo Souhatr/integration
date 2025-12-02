@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">LieuRes</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLink="/lieuxA">Lieux</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/mes-reservations">Mes réservations</a></li>
+        <li *ngIf="isLoggedIn" class="nav-item"><a class="nav-link" routerLink="/signal/report">Signaler</a></li>
+        <li *ngIf="isLoggedIn" class="nav-item"><a class="nav-link" routerLink="/tasks/mine">Mes tâches</a></li>
+        <li *ngIf="isAdmin" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/admin/lieux">Gérer lieux</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/reservations">Réservations</a></li>
+            <li *ngIf="isSuperAdmin"><a class="dropdown-item" routerLink="/admin/users">Gestion admins</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/signals">Signaux</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/signal-categories">Catégories signaux</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/tasks">Tâches</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <a *ngIf="!isLoggedIn" class="btn btn-outline-primary me-2" routerLink="/login">Se connecter</a>
+        <a *ngIf="!isLoggedIn" class="btn btn-outline-secondary" routerLink="/register">S'inscrire</a>
+        <div *ngIf="isLoggedIn" class="me-3 d-flex align-items-center">
+          <small class="text-muted me-2">{{ currentUser?.username }} <span class="badge bg-secondary ms-1">{{ currentUser?.role }}</span></small>
+        </div>
+        <button *ngIf="isLoggedIn" class="btn btn-danger" (click)="logout()">Déconnexion</button>
+      </div>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
